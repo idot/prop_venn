@@ -1,0 +1,75 @@
+<tool id="prop_venn" name="proportional venn" version="0.4">
+<description> from 2-3 sets</description>
+<command interpreter="python">venner.py
+	#if str( $twoThree['tt']) == 'three':
+		--files $inputFile1,$inputFile2,$twoThree.inputFile3
+		--columns $column1,$column2,$twoThree.column3
+        --asNames $asName1,$asName2,$twoThree.asName3
+    #else:
+    	--file $inputFile1,$inputFile2
+        --columns $column1,$column2
+        --asNames $asName1,$asName2
+    #end if
+     --title '$title'
+     --size $size
+     --outname $outPath
+</command>
+<inputs>
+  <param name="title" label="title" type="text" help="title of plot" optional="true" value=""/>
+  <param name="name" label="name" type="text" help="name of output file" value="venn of NA"/>
+  <param name="size" label="size" type="integer" help="size of plot ( &lt; 540)" optional="true" value="300"/>
+  
+  <param format="tabular" name="inputFile1" label="input file 1" type="data" help="tabular input file" optional="false"/>
+  <param name="column1" label="column index" type="integer" help="0 based index of element column" optional="false" value="0"/>
+  <param name="asName1" label="as name" type="text" help="nice name for columns on plot" optional="false" value="A"/>
+  
+  <param format="tabular2" name="inputFile2" label="input file 2" type="data" help="tabular input file" optional="false"/>
+  <param name="column2" label="column index file 2" type="integer" help="0 based index of element column" optional="false" value="0"/>
+  <param name="asName2" label="as name file 2" type="text" help="nice name for columns on plot" optional="false" value="B"/>
+  
+  <conditional name="twoThree">
+  <param name="tt" type="select" label="two or three">
+        <option value="two" selected="true">two</option>
+        <option value="three">three</option>
+  </param>
+  <when value="two">
+  </when>
+  <when value="three">
+     <param format="tabular" name="inputFile3" label="input file 3" type="data" help="tabular input file" optional="false"/>
+     <param name="column3" label="column index file 3" type="integer" help="0 based index of element column" optional="false" value="0"/>
+     <param name="asName3" label="as name file 3" type="text" help="nice name for columns on plot" optional="false" value="C"/>
+  </when>
+</conditional>
+</inputs>
+
+<outputs>
+  <data name="outPath" format="html" label="${name}"/>
+</outputs>
+
+<help>
+
+Proportional Venn Diagram:
+--------------------------
+Creates a proportional Venn diagram from 2 or 3 tab delimited input files.
+The 0 based column index decides which column is used for extracting the sets to compare between the files.
+Multiple items with the same value per column are counted as one.
+
+Requirements:
+-------------
+- 2-3 tab delimited input files.
+- 0 based index of the columns to extract for each file
+
+Outputs:
+--------
+- Html page with the proportional Venn diagram and a table for the counts in each section.
+
+Please turn to *Ido Tamir* in case of problems or suggestions for this tool.
+
+
+
+</help>
+
+</tool>
+
+
+
